@@ -36,27 +36,30 @@ export const auth = getAuth();
 
 /**
  * Save a New User in Firestore
+ * @param {string} id the name of the User
  * @param {string} name the name of the User
  * @param {string} email the email of the User
  * @param {string} password the password of the User
 */
 
-/**
- * Save a New New in Firestore
- * @param {string} title the name of the User
- * @param {string} author the email of the User
- * @param {string} newspaper the password of the User
-*/
 export const saveUser = (name, email, password) =>
-  addDoc(collection(db, "users"), { name, email, password });
-  createUserWithEmailAndPassword(auth, email, password)
-    .then((userCredential) => {
-      const user = userCredential.user;
-    })
-    .catch((error) => {
-      const errorCode = error.code;
-      const errorMessage = error.message;
-    });
+  
+  createUserWithEmailAndPassword(auth, email, password).then((success) => {
+    var user = auth.currentUser;
+    var uid;
+    if (user != null) {
+        uid = user.uid;
+        try{
+          addDoc(collection(db, "users"), {
+            id: uid,
+            name: name, 
+            email: email, 
+            password: password });
+        }catch(e){
+          console.error ("No se pudo guardar el usuario")
+        }
+    }
+  });
 
 
 export const  signIn = (auth, email, password) =>
@@ -84,3 +87,33 @@ export const updateUser = (id, newFields) =>
   updateDoc(doc(db, "users", id), newFields);
 
 export const getUsers = () => getDocs(collection(db, "users"));
+
+/**
+ * Save a New Post in Firestore
+ * @param {string} title the title of the Post
+ * @param {string} author the author of the Post
+ * @param {string} source the source of the Post
+ * @param {string} date the date of the Post
+ * @param {string} user_id the user associate to the Post
+ * @param {string} urlPicture Picture of the new 
+*/
+
+export const savePost = (title, author, source, date,user_id) =>
+  addDoc(collection(db, "posts"), { title, author, source, date, user_id });
+
+export const onGetPosts = (callback) =>
+  onSnapshot(collection(db, "posts"), callback);
+
+/**
+ *
+ * @param {string} id Task ID
+ */
+export const deletePost = (id) => deleteDoc(doc(db, "posts", id));
+
+ export const getPost = (id) => getDoc(doc(db, "posts", id));
+ 
+ export const updatePost = (id, newFields) =>
+   updateDoc(doc(db, "posts", id), newFields);
+ 
+ export const getPosts = () => getDocs(collection(db, "posts"));
+ 
