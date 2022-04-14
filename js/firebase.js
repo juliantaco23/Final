@@ -62,10 +62,14 @@ export const saveUser = (name, email, password) =>
   });
 
 
-export const  signIn = (auth, email, password) =>
+export const  signIn = (email, password) =>
     signInWithEmailAndPassword(auth, email, password)
-      .then ((userCredential) => {
-        const user = userCredential.user;
+      .then ((success) => {
+        var user = auth.currentUser;
+        var uid;
+        if (user != null) {
+          uid = user.uid;
+        }
       })
       .catch ((error) => {
         const errorCode = error.code;
