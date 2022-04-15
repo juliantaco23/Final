@@ -15,6 +15,13 @@ const postForm = document.getElementById("post-form");
 let editStatus = false;
 let id = "";
 
+document.getElementById('logout').addEventListener('click', function (e) {
+    e.preventDefault();
+    logOut();
+    console.log("cerrando sesion")
+
+});
+
 window.addEventListener("DOMContentLoaded", async (e) => {
     await onGetPosts((querySnapshot) => {
         postContainer.innerHTML = "";

@@ -98,6 +98,18 @@ export const  signIn = (email, password) =>
         window.alert(errorMessage)
       });
   
+
+export const logOut = () =>
+  signOut(auth).then(() => {
+    // Sign-out successful.
+    console.log("Cerrando sesion")
+    window.location.href = "./index.html"
+  }).catch((error) => {
+    // An error happened.
+    console.log("No se pudo cerrar sesion")
+    console.log(error)
+
+  });
 export const onGetUsers = (callback) =>
   onSnapshot(collection(db, "users"), callback);
 
