@@ -40,7 +40,7 @@ export const auth = getAuth();
 var userActive;
 var uid;
 
-auth.onIdTokenChanged((user) => {
+onAuthStateChanged(auth,(user) => {
   if (user) {
     console.log("Usuario loggeado")
     console.log(user)
@@ -132,12 +132,28 @@ export const getUsers = () => getDocs(collection(db, "users"));
  * @param {string} author the author of the Post
  * @param {string} source the source of the Post
  * @param {string} date the date of the Post
+ * @param {string} category the category of the Post
+ * @param {string} content the content of the Post
  * @param {string} user_id the user associate to the Post
  * @param {string} urlPicture Picture of the new 
 */
 
+function selectImage(category){
+  if(category=="Politica y Economia"){
+      return ("Final/img/post-slide-3.jpg");
+  } else if(category=="Deportes"){
+      return ("Final/img/post-slide-1.jpg")
+  } else if (category=="Tecnologia y Ciencia"){
+      return ("Final/img/post-slide-2.jpg")
+  } else if (category=="Entretenimiento"){
+      return ("Final/img/post-slide-6.jpg")
+  }
+
+
+}
 export const isUser = (title, author, source, date, category, content ) => {
   console.log(userActive)
+  const urlPicture = selectImage(category);
   if (userActive != null) {
     try{
       addDoc(collection(db, "posts"), {
@@ -147,8 +163,10 @@ export const isUser = (title, author, source, date, category, content ) => {
         category: category,
         content: content,
         user_id: uid,
-        source: source });
+        source: source,
+        urlPicture: urlPicture });
     }catch(e){
+      console.error (e)
       console.error ("No se pudo guardar la noticia");
     }
   }
