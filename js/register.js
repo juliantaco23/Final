@@ -16,8 +16,6 @@ window.addEventListener("DOMContentLoaded", async (e) =>{
 })
 
 const userForm = document.getElementById("user-form")
-let editStatus = false;
-let id = "";
 userForm.addEventListener("submit", async (e) => {
     e.preventDefault();
 
@@ -30,7 +28,6 @@ userForm.addEventListener("submit", async (e) => {
         await saveUser(name.value, email.value, password.value);
         userForm["btn-user-form"].innerText = "Registrado";
         window.alert("Registro exitoso");
-        alert("Registro exitoso")
         setTimeout(function(){
             window.location.href = "./login.html";
         }, 1000);

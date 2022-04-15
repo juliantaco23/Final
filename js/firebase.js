@@ -4,6 +4,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  onAuthStateChanged,
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 import { 
   getFirestore,
@@ -34,6 +35,21 @@ export const app = initializeApp(firebaseConfig);
 export const db = getFirestore();
 export const auth = getAuth();
 
+var userActive;
+var uid;
+onAuthStateChanged(auth, (user) => {
+  if (user) {
+    // User is signed in, see docs for a list of available properties
+    // https://firebase.google.com/docs/reference/js/firebase.User
+    uid = user.uid;
+    userActive = user;
+    // ...
+  } else {
+    userActive = null
+    uid = null
+  }
+});
+
 /**
  * Save a New User in Firestore
  * @param {string} id the name of the User
@@ -45,10 +61,7 @@ export const auth = getAuth();
 export const saveUser = (name, email, password) =>
   
   createUserWithEmailAndPassword(auth, email, password).then((success) => {
-    var user = auth.currentUser;
-    var uid;
-    if (user != null) {
-        uid = user.uid;
+    if (userActive != null) {
         try{
           addDoc(collection(db, "users"), {
             id: uid,
@@ -65,15 +78,18 @@ export const saveUser = (name, email, password) =>
 export const  signIn = (email, password) =>
     signInWithEmailAndPassword(auth, email, password)
       .then ((success) => {
-        var user = auth.currentUser;
-        var uid;
-        if (user != null) {
-          uid = user.uid;
+        if (userActive != null) {
+          console.log(userActive)
+          window.alert("inicio de sesion exitoso");
+          setTimeout(function(){
+            window.location.href = "./indexlogueado.html";
+          }, 1000);
         }
       })
       .catch ((error) => {
         const errorCode = error.code;
         const errorMessage = error.message;
+        window.alert(errorMessage)
       });
   
 export const onGetUsers = (callback) =>
@@ -102,8 +118,22 @@ export const getUsers = () => getDocs(collection(db, "users"));
  * @param {string} urlPicture Picture of the new 
 */
 
-export const savePost = (title, author, source, date,user_id) =>
-  addDoc(collection(db, "posts"), { title, author, source, date, user_id });
+export const isUser = (title, author, source, date, category ) => {
+  console.log(userActive)
+  if (userActive != null) {
+    try{
+      addDoc(collection(db, "posts"), {
+        title: title, 
+        author: author, 
+        date: date,
+        category: category,
+        user_id: uid,
+        source: source });
+    }catch(e){
+      console.error ("No se pudo guardar el usuario")
+    }
+  }
+};
 
 export const onGetPosts = (callback) =>
   onSnapshot(collection(db, "posts"), callback);
@@ -120,4 +150,5 @@ export const deletePost = (id) => deleteDoc(doc(db, "posts", id));
    updateDoc(doc(db, "posts", id), newFields);
  
  export const getPosts = () => getDocs(collection(db, "posts"));
+ 
  

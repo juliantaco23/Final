@@ -26,11 +26,8 @@ userForm.addEventListener("submit", async (e) => {
 
     try{
         await signIn(email.value, password.value);
-        window.alert("Inicio de sesion exitoso");
-        alert("Registro exitoso")
-        setTimeout(function(){
-            window.location.href = "./index.html";
-        }, 1000);
+        
+        
     } catch(error){
         console.log(error)
     }
