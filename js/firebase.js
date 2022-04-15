@@ -5,6 +5,8 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
+  onIdTokenChanged,
+  signOut,
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-auth.js";
 import { 
   getFirestore,
@@ -37,14 +39,18 @@ export const auth = getAuth();
 
 var userActive;
 var uid;
-onAuthStateChanged(auth, (user) => {
+
+auth.onIdTokenChanged((user) => {
   if (user) {
+    console.log("Usuario loggeado")
+    console.log(user)
     // User is signed in, see docs for a list of available properties
     // https://firebase.google.com/docs/reference/js/firebase.User
     uid = user.uid;
     userActive = user;
     // ...
   } else {
+    console.log("Usuario no loggeado")
     userActive = null
     uid = null
   }
@@ -118,7 +124,7 @@ export const getUsers = () => getDocs(collection(db, "users"));
  * @param {string} urlPicture Picture of the new 
 */
 
-export const isUser = (title, author, source, date, category ) => {
+export const isUser = (title, author, source, date, category, content ) => {
   console.log(userActive)
   if (userActive != null) {
     try{
@@ -127,16 +133,24 @@ export const isUser = (title, author, source, date, category ) => {
         author: author, 
         date: date,
         category: category,
+        content: content,
         user_id: uid,
         source: source });
     }catch(e){
-      console.error ("No se pudo guardar el usuario")
+      console.error ("No se pudo guardar la noticia");
     }
   }
 };
 
+export const showUser = () => {
+  console.log(userActive);
+  console.log(uid);
+  return uid
+}
+
 export const onGetPosts = (callback) =>
   onSnapshot(collection(db, "posts"), callback);
+  console.log(userActive);
 
 /**
  *
