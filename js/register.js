@@ -12,8 +12,8 @@ import {
 window.addEventListener("DOMContentLoaded", async (e) =>{
     onGetUsers((querySnapshot) => {
         console.log("registro");
-    })
-})
+    });
+});
 
 const userForm = document.getElementById("user-form")
 userForm.addEventListener("submit", async (e) => {

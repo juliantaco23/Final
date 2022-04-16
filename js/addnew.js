@@ -33,7 +33,7 @@ window.addEventListener("DOMContentLoaded", async (e) => {
             if (post.user_id == userid ){
                 postContainer.innerHTML +=  `
                 <h2> Mis noticias </h2>
-                <div class="col-lg-4">
+                <div class="col-lg-8">
                     <div class="post-entry-1 lg">
                     <a href="single-post.html"><img src="${post.urlPicture}" alt="" class="img-fluid"></a>
                     <div class="post-meta"><span class="date">${post.category}</span> <span class="mx-1">&bullet;</span> <span>${post.date}</span></div>

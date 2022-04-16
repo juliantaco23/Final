@@ -39,22 +39,21 @@ export const auth = getAuth();
 
 var userActive;
 var uid;
-
-onAuthStateChanged(auth,(user) => {
-  if (user) {
-    console.log("Usuario loggeado")
-    console.log(user)
-    // User is signed in, see docs for a list of available properties
-    // https://firebase.google.com/docs/reference/js/firebase.User
-    uid = user.uid;
-    userActive = user;
-    // ...
-  } else {
-    console.log("Usuario no loggeado")
-    userActive = null
-    uid = null
-  }
-});
+  onAuthStateChanged(auth,(user) => {
+    if (user) {
+      console.log("Usuario loggeado")
+      console.log(user)
+      // User is signed in, see docs for a list of available properties
+      // https://firebase.google.com/docs/reference/js/firebase.User
+      uid = user.uid;
+      userActive = user;
+      // ...
+    } else {
+      console.log("Usuario no loggeado")
+      userActive = null
+      uid = null
+    }
+  });
 
 /**
  * Save a New User in Firestore
