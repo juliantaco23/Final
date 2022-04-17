@@ -27,7 +27,6 @@ userForm.addEventListener("submit", async (e) => {
     try{
         await signIn(email.value, password.value);
         
-        
     } catch(error){
         console.log(error)
     }

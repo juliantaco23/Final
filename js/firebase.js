@@ -86,9 +86,15 @@ export const  signIn = (email, password) =>
         if (userActive != null) {
           console.log(userActive)
           window.alert("inicio de sesion exitoso");
-          setTimeout(function(){
-            window.location.href = "./indexlogueado.html";
-          }, 1000);
+          if (email == "admin@admin.com"){
+            setTimeout(function(){
+              window.location.href = "./admin.html";
+            }, 1000);
+          }else{
+            setTimeout(function(){
+              window.location.href = "./indexlogueado.html";
+            }, 1000);
+          }
         }
       })
       .catch ((error) => {
