@@ -7,14 +7,17 @@ import {
     isUser,
     showUser,
     logOut,
+    setUrl,
 
 } from "./firebase.js";
+
 
 const postContainer = document.getElementById("posts-container");
 const postForm = document.getElementById("post-form");
 
 let editStatus = false;
 let id = "";
+var file;
 
 document.getElementById('logout').addEventListener('click', function (e) {
     e.preventDefault();
@@ -23,14 +26,18 @@ document.getElementById('logout').addEventListener('click', function (e) {
 
 });
 
+document.getElementById('upload-image').addEventListener('click', async (e) => {
+  file = document.querySelector("#photo").files[0];
+  setUrl(file);
+});
+
+
 window.addEventListener("DOMContentLoaded", async (e) => {
     await onGetPosts((querySnapshot) => {
         postContainer.innerHTML = "";
         const userid = showUser();
         querySnapshot.forEach((doc) => {
             const post = doc.data();
-            console.log(post)
-            console.log(post.user_id);
             if (post.user_id == userid ){
                 postContainer.innerHTML +=  `
                 <h2> Mis noticias </h2>
@@ -97,9 +104,8 @@ window.addEventListener("DOMContentLoaded", async (e) => {
 });
 
 
-postForm.addEventListener("submit", async (e) =>{
+document.getElementById("post-form").addEventListener("submit", async (e) =>{
     e.preventDefault();
-
     const title = postForm["title"];
     const author = postForm["author"];
     const source = postForm["newsletter"];
@@ -110,7 +116,6 @@ postForm.addEventListener("submit", async (e) =>{
     try{
         if(!editStatus){
             await isUser(title.value, author.value, source.value, date.value, category, content.value);
-            window.alert("Noticia añadida exitosamente");
         } else {
             await updatePost(id, {
                 title: title.value, author: author.value, source: source.value, date: date.value, category: category, content: content.value

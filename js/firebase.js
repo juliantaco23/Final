@@ -19,6 +19,13 @@ import {
   getDoc,
   updateDoc, 
 } from "https://www.gstatic.com/firebasejs/9.6.10/firebase-firestore.js";
+
+import { 
+  getStorage, 
+  ref,
+  uploadBytes,
+  getDownloadURL
+} from "https://www.gstatic.com/firebasejs/9.6.10/firebase-storage.js"
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -36,6 +43,14 @@ const firebaseConfig = {
 export const app = initializeApp(firebaseConfig);
 export const db = getFirestore();
 export const auth = getAuth();
+export const storage = getStorage();
+
+let nombre = "";
+let ext = "";
+let metadata;
+let storageRef;
+var urlPicture;
+var storageurl;
 
 var userActive;
 var uid;
@@ -143,6 +158,8 @@ export const getUsers = () => getDocs(collection(db, "users"));
  * @param {string} urlPicture Picture of the new 
 */
 
+
+
 function selectImage(category){
   if(category=="Politica y Economia"){
       return ("./img/post-slide-3.jpg");
@@ -153,12 +170,56 @@ function selectImage(category){
   } else if (category=="Entretenimiento"){
       return ("./img/post-slide-6.jpg")
   }
-
+  else{return null}
 
 }
+
+export const setUrl = (file) =>
+{
+  if(file != null){
+    metadata = {
+      contentType: file.type
+    }
+    const name = file.name;
+    const lastDot = name.lastIndexOf('.');
+    const prev = name.substring(0,lastDot);
+    const ext = name.substring(lastDot + 1); 
+    nombre = "imagenes/" + prev + "-" + uid + '.' + ext;
+    try{
+      storageRef = ref(storage, (nombre));
+      const uploadTask = uploadBytes(storageRef, file,metadata).then((snapshot) => {
+        console.log('se subio correctamente');
+        console.log(storageRef);
+        console.log(uploadTask);
+        window.alert("imagen subida exitosamente");
+      });
+
+      getDownloadURL(storageRef)
+      .then((url) => { 
+          storageurl = url;
+          console.log(storageurl);
+          console.log("se obtuvo el url de la imagen");
+      })
+      .catch((e) =>{
+          console.log(e)
+      });
+    } catch(e){
+      console.log(e);
+    }
+  }else{
+    nombre = null;
+    console.log("No se subio imagen");
+  }
+}
+
 export const isUser = (title, author, source, date, category, content ) => {
   console.log(userActive)
-  const urlPicture = selectImage(category);
+  if(nombre==null){
+    urlPicture = selectImage(category);
+  }
+  else{
+    urlPicture = String(storageurl);
+  }
   if (userActive != null) {
     try{
       addDoc(collection(db, "posts"), {
@@ -170,7 +231,9 @@ export const isUser = (title, author, source, date, category, content ) => {
         user_id: uid,
         source: source,
         urlPicture: urlPicture });
+        window.alert("Noticia añadida exitosamente");
     }catch(e){
+      window.alert("Noticia añadida erroneamente");
       console.error (e)
       console.error ("No se pudo guardar la noticia");
     }
@@ -178,8 +241,6 @@ export const isUser = (title, author, source, date, category, content ) => {
 };
 
 export const showUser = () => {
-  console.log(userActive);
-  console.log(uid);
   return uid
 }
 
