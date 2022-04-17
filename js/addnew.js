@@ -17,7 +17,7 @@ const postForm = document.getElementById("post-form");
 
 let editStatus = false;
 let id = "";
-var file;
+var file = null;
 
 document.getElementById('logout').addEventListener('click', function (e) {
     e.preventDefault();

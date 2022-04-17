@@ -214,12 +214,13 @@ export const setUrl = (file) =>
 
 export const isUser = (title, author, source, date, category, content ) => {
   console.log(userActive)
-  if(nombre==null){
+  if(nombre==""){
     urlPicture = selectImage(category);
   }
   else{
     urlPicture = String(storageurl);
   }
+  console.log(urlPicture,"urlpicture")
   if (userActive != null) {
     try{
       addDoc(collection(db, "posts"), {
