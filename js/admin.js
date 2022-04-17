@@ -6,6 +6,7 @@ import {
     getPosts,
     isUser,
     showUser,
+    logOut,
 
 } from "./firebase.js";
 
