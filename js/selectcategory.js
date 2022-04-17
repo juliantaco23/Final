@@ -5,7 +5,7 @@ document.getElementById("politica-category").addEventListener('click',async (e) 
       } else {
         console.log("Sorry, your browser does not support Web Storage...");
     }
-    window.location.href = "./categories.php";
+    window.location.href = "./categories.html";
 });
 
 document.getElementById("deportes-category").addEventListener('click',async (e) =>{
@@ -15,7 +15,7 @@ document.getElementById("deportes-category").addEventListener('click',async (e) 
       } else {
         console.log("Sorry, your browser does not support Web Storage...");
     }
-    window.location.href = "./categories.php";
+    window.location.href = "./categories.html";
 });
 
 document.getElementById("ciencia-category").addEventListener('click',async (e) =>{
@@ -25,7 +25,7 @@ document.getElementById("ciencia-category").addEventListener('click',async (e) =
       } else {
         console.log("Sorry, your browser does not support Web Storage...");
     }
-    window.location.href = "./categories.php";
+    window.location.href = "./categories.html";
 });
 
 document.getElementById("entretenimiento-category").addEventListener('click',async (e) =>{
@@ -35,5 +35,5 @@ document.getElementById("entretenimiento-category").addEventListener('click',asy
       } else {
         console.log("Sorry, your browser does not support Web Storage...");
     }
-    window.location.href = "./categories.php";
+    window.location.href = "./categories.html";
 });

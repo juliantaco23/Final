@@ -64,7 +64,7 @@ window.addEventListener("DOMContentLoaded", async (e) =>{
 
                     <div class="d-flex align-items-center author">
                         <div class="photo">
-                            <img src="Final/img/person-1.jpg" alt="" class="img-fluid">
+                            <img src="./img/person-1.jpg" alt="" class="img-fluid">
                         </div>
                         <div class="name">
                             <h3 class="m-0 p-0">${post.author}</h3>

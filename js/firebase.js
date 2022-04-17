@@ -145,13 +145,13 @@ export const getUsers = () => getDocs(collection(db, "users"));
 
 function selectImage(category){
   if(category=="Politica y Economia"){
-      return ("Final/img/post-slide-3.jpg");
+      return ("./img/post-slide-3.jpg");
   } else if(category=="Deportes"){
-      return ("Final/img/post-slide-1.jpg")
+      return ("./img/post-slide-1.jpg")
   } else if (category=="Tecnologia y Ciencia"){
-      return ("Final/img/post-slide-2.jpg")
+      return ("./img/post-slide-2.jpg")
   } else if (category=="Entretenimiento"){
-      return ("Final/img/post-slide-6.jpg")
+      return ("./img/post-slide-6.jpg")
   }
 
 
